@@ -1,0 +1,42 @@
+@font-face {
+  font-family: 'Pinar';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../fonts/pi/woff2/Pinar-FD-Light.woff2') format('woff2'),
+}
+@font-face {
+  font-family: 'Pinar';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/pi/woff2/Pinar-FD-Regular.woff2') format('woff2'),
+}
+@font-face {
+  font-family: 'Pinar';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/pi/woff2/Pinar-FD-Medium.woff2') format('woff2'),
+}
+@font-face {
+  font-family: 'Pinar';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/pi/woff2/Pinar-FD-SemiBold.woff2') format('woff2'),
+}
+@font-face {
+  font-family: 'Pinar';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/pi/woff2/Pinar-FD-Bold.woff2') format('woff2'),
+}
+@font-face {
+  font-family: 'Pinar';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../fonts/pi/woff2/Pinar-FD-ExtraBold.woff2') format('woff2'),
+}
+@font-face {
+  font-family: 'Pinar';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/pi/woff2/Pinar-FD-Black.woff2') format('woff2'),
+}

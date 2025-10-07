@@ -1,0 +1,413 @@
+/*
+Theme Name: Ali 3
+Theme URI: https://ali-mahmoudi.ir
+Author: ali mahmoudi
+Author URI: https://ali-mahmoudi.ir
+Description: Designer Ali Mahmoudi.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: black, brown, orange, tan, white, yellow, light, one-column, two-columns, right-sidebar, flexible-width, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, translation-ready
+Text Domain: twentythirteen
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+/* ----------------------------------------------- alpinejs ----------------------------------------- */
+[x-cloak]{
+  display: none !important;
+}
+/* ----------------------------------------------- index ----------------------------------------- */
+#btn-our-service{
+  padding: .5em .8em;
+  color: rgba(255,255,255,.5);
+  position: relative;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+#btn-our-service::before,
+#btn-our-service::after {
+  content: '';
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  transition: all .35s ease;
+  opacity: 0;
+}
+
+#btn-our-service::before {
+  content: '';
+  right: 0;
+  top: 0;
+  border-top: 3px solid var(--colorPrimaryLigh);
+  border-right: 3px solid var(--colorPrimaryLigh);
+  transform: translate(-100%, 50%);
+}
+
+#btn-our-service:after {
+  content: '';
+  left: 0;
+  bottom: 0;
+  border-bottom: 3px solid var(--colorPrimaryLigh);
+  border-left: 3px solid var(--colorPrimaryLigh);
+  transform: translate(100%, -50%)
+}
+
+#btn-our-service:hover:before,
+#btn-our-service:hover:after{
+  transform: translate(0,0);
+  opacity: 1;
+}
+
+#btn-our-service:hover {
+  color: var(--colorPrimaryLigh);
+}
+.card-services .card-image-container img{
+  transition: all 0.3s ease-in;
+}
+.card-services:hover .card-image-container img{
+  transform: scale(110%);
+}
+/* ----------------------------------------------- swiperjs ----------------------------------------- */
+.pb-30{
+  padding-bottom: 30px !important;
+}
+.swiper-button-prev , .swiper-button-next{
+  transition: all 0.5s;
+  color : var(--colorPrimaryLight); 
+}
+.swiper-button-prev-slider:hover{
+  transform: translateX(-5px);
+}
+.swiper-button-next-slider:hover{
+  transform: translateX(5px);
+}
+@media only screen and (min-width:768px){
+  .swiper-button-prev , .swiper-button-next{
+    display: block !important ;
+  }
+} 
+.swiper-pagination{
+  margin-bottom: -5px !important;
+}
+.swiper-pagination-bullet{
+  border : 2px solid #fff !important;
+  background: transparent!important;
+}
+.swiper-pagination-bullet-active{
+  border : 2px solid var(--colorPrimaryLight) !important;
+  background: var(--colorPrimaryLight) !important;
+  width: 20px !important;
+  border-radius: 5px !important;
+}
+/* ----------------------------------------------- /swiperjs ----------------------------------------- */
+
+/* --------------------------------- backToTop---------------------------- */
+.r-1 {
+  background: conic-gradient(var(--colorPrimary ) 3.6deg, #ededed 0deg);
+}
+.r-2 {
+  background: conic-gradient(var(--colorPrimary ) 7.2deg, #ededed 0deg);
+}
+.r-3 {
+  background: conic-gradient(var(--colorPrimary ) 10.8deg, #ededed 0deg);
+}
+.r-4 {
+  background: conic-gradient(var(--colorPrimary ) 14.4deg, #ededed 0deg);
+}
+.r-5 {
+  background: conic-gradient(var(--colorPrimary ) 18.0deg, #ededed 0deg);
+}
+.r-6 {
+  background: conic-gradient(var(--colorPrimary ) 21.6deg, #ededed 0deg);
+}
+.r-7 {
+  background: conic-gradient(var(--colorPrimary ) 25.2deg, #ededed 0deg);
+}
+.r-8 {
+  background: conic-gradient(var(--colorPrimary ) 28.8deg, #ededed 0deg);
+}
+.r-9 {
+  background: conic-gradient(var(--colorPrimary ) 32.4deg, #ededed 0deg);
+}
+.r-10 {
+  background: conic-gradient(var(--colorPrimary ) 36.0deg, #ededed 0deg);
+}
+.r-11 {
+  background: conic-gradient(var(--colorPrimary ) 39.6deg, #ededed 0deg);
+}
+.r-12 {
+  background: conic-gradient(var(--colorPrimary ) 43.2deg, #ededed 0deg);
+}
+.r-13 {
+  background: conic-gradient(var(--colorPrimary ) 46.8deg, #ededed 0deg);
+}
+.r-14 {
+  background: conic-gradient(var(--colorPrimary ) 50.4deg, #ededed 0deg);
+}
+.r-15 {
+  background: conic-gradient(var(--colorPrimary ) 54.0deg, #ededed 0deg);
+}
+.r-16 {
+  background: conic-gradient(var(--colorPrimary ) 57.6deg, #ededed 0deg);
+}
+.r-17 {
+  background: conic-gradient(var(--colorPrimary ) 61.2deg, #ededed 0deg);
+}
+.r-18 {
+  background: conic-gradient(var(--colorPrimary ) 64.8deg, #ededed 0deg);
+}
+.r-19 {
+  background: conic-gradient(var(--colorPrimary ) 68.4deg, #ededed 0deg);
+}
+.r-20 {
+  background: conic-gradient(var(--colorPrimary ) 72.0deg, #ededed 0deg);
+}
+.r-21 {
+  background: conic-gradient(var(--colorPrimary ) 75.6deg, #ededed 0deg);
+}
+.r-22 {
+  background: conic-gradient(var(--colorPrimary ) 79.2deg, #ededed 0deg);
+}
+.r-23 {
+  background: conic-gradient(var(--colorPrimary ) 82.8deg, #ededed 0deg);
+}
+.r-24 {
+  background: conic-gradient(var(--colorPrimary ) 86.4deg, #ededed 0deg);
+}
+.r-25 {
+  background: conic-gradient(var(--colorPrimary ) 90.0deg, #ededed 0deg);
+}
+.r-26 {
+  background: conic-gradient(var(--colorPrimary ) 93.6deg, #ededed 0deg);
+}
+.r-27 {
+  background: conic-gradient(var(--colorPrimary ) 97.2deg, #ededed 0deg);
+}
+.r-28 {
+  background: conic-gradient(var(--colorPrimary ) 100.8deg, #ededed 0deg);
+}
+.r-29 {
+  background: conic-gradient(var(--colorPrimary ) 104.4deg, #ededed 0deg);
+}
+.r-30 {
+  background: conic-gradient(var(--colorPrimary ) 108.0deg, #ededed 0deg);
+}
+.r-31 {
+  background: conic-gradient(var(--colorPrimary ) 111.6deg, #ededed 0deg);
+}
+.r-32 {
+  background: conic-gradient(var(--colorPrimary ) 115.2deg, #ededed 0deg);
+}
+.r-33 {
+  background: conic-gradient(var(--colorPrimary ) 118.8deg, #ededed 0deg);
+}
+.r-34 {
+  background: conic-gradient(var(--colorPrimary ) 122.4deg, #ededed 0deg);
+}
+.r-35 {
+  background: conic-gradient(var(--colorPrimary ) 126.0deg, #ededed 0deg);
+}
+.r-36 {
+  background: conic-gradient(var(--colorPrimary ) 129.6deg, #ededed 0deg);
+}
+.r-37 {
+  background: conic-gradient(var(--colorPrimary ) 133.2deg, #ededed 0deg);
+}
+.r-38 {
+  background: conic-gradient(var(--colorPrimary ) 136.8deg, #ededed 0deg);
+}
+.r-39 {
+  background: conic-gradient(var(--colorPrimary ) 140.4deg, #ededed 0deg);
+}
+.r-40 {
+  background: conic-gradient(var(--colorPrimary ) 144.0deg, #ededed 0deg);
+}
+.r-41 {
+  background: conic-gradient(var(--colorPrimary ) 147.6deg, #ededed 0deg);
+}
+.r-42 {
+  background: conic-gradient(var(--colorPrimary ) 151.2deg, #ededed 0deg);
+}
+.r-43 {
+  background: conic-gradient(var(--colorPrimary ) 154.8deg, #ededed 0deg);
+}
+.r-44 {
+  background: conic-gradient(var(--colorPrimary ) 158.4deg, #ededed 0deg);
+}
+.r-45 {
+  background: conic-gradient(var(--colorPrimary ) 162.0deg, #ededed 0deg);
+}
+.r-46 {
+  background: conic-gradient(var(--colorPrimary ) 165.6deg, #ededed 0deg);
+}
+.r-47 {
+  background: conic-gradient(var(--colorPrimary ) 169.2deg, #ededed 0deg);
+}
+.r-48 {
+  background: conic-gradient(var(--colorPrimary ) 172.8deg, #ededed 0deg);
+}
+.r-49 {
+  background: conic-gradient(var(--colorPrimary ) 176.4deg, #ededed 0deg);
+}
+.r-50 {
+  background: conic-gradient(var(--colorPrimary ) 180.0deg, #ededed 0deg);
+}
+.r-51 {
+  background: conic-gradient(var(--colorPrimary ) 183.6deg, #ededed 0deg);
+}
+.r-52 {
+  background: conic-gradient(var(--colorPrimary ) 187.2deg, #ededed 0deg);
+}
+.r-53 {
+  background: conic-gradient(var(--colorPrimary ) 190.8deg, #ededed 0deg);
+}
+.r-54 {
+  background: conic-gradient(var(--colorPrimary ) 194.4deg, #ededed 0deg);
+}
+.r-55 {
+  background: conic-gradient(var(--colorPrimary ) 198.0deg, #ededed 0deg);
+}
+.r-56 {
+  background: conic-gradient(var(--colorPrimary ) 201.6deg, #ededed 0deg);
+}
+.r-57 {
+  background: conic-gradient(var(--colorPrimary ) 205.2deg, #ededed 0deg);
+}
+.r-58 {
+  background: conic-gradient(var(--colorPrimary ) 208.8deg, #ededed 0deg);
+}
+.r-59 {
+  background: conic-gradient(var(--colorPrimary ) 212.4deg, #ededed 0deg);
+}
+.r-60 {
+  background: conic-gradient(var(--colorPrimary ) 216.0deg, #ededed 0deg);
+}
+.r-61 {
+  background: conic-gradient(var(--colorPrimary ) 219.6deg, #ededed 0deg);
+}
+.r-62 {
+  background: conic-gradient(var(--colorPrimary ) 223.2deg, #ededed 0deg);
+}
+.r-63 {
+  background: conic-gradient(var(--colorPrimary ) 226.8deg, #ededed 0deg);
+}
+.r-64 {
+  background: conic-gradient(var(--colorPrimary ) 230.4deg, #ededed 0deg);
+}
+.r-65 {
+  background: conic-gradient(var(--colorPrimary ) 234.0deg, #ededed 0deg);
+}
+.r-66 {
+  background: conic-gradient(var(--colorPrimary ) 237.6deg, #ededed 0deg);
+}
+.r-67 {
+  background: conic-gradient(var(--colorPrimary ) 241.2deg, #ededed 0deg);
+}
+.r-68 {
+  background: conic-gradient(var(--colorPrimary ) 244.8deg, #ededed 0deg);
+}
+.r-69 {
+  background: conic-gradient(var(--colorPrimary ) 248.4deg, #ededed 0deg);
+}
+.r-70 {
+  background: conic-gradient(var(--colorPrimary ) 252.0deg, #ededed 0deg);
+}
+.r-71 {
+  background: conic-gradient(var(--colorPrimary ) 255.6deg, #ededed 0deg);
+}
+.r-72 {
+  background: conic-gradient(var(--colorPrimary ) 259.2deg, #ededed 0deg);
+}
+.r-73 {
+  background: conic-gradient(var(--colorPrimary ) 262.8deg, #ededed 0deg);
+}
+.r-74 {
+  background: conic-gradient(var(--colorPrimary ) 266.4deg, #ededed 0deg);
+}
+.r-75 {
+  background: conic-gradient(var(--colorPrimary ) 270.0deg, #ededed 0deg);
+}
+.r-76 {
+  background: conic-gradient(var(--colorPrimary ) 273.6deg, #ededed 0deg);
+}
+.r-77 {
+  background: conic-gradient(var(--colorPrimary ) 277.2deg, #ededed 0deg);
+}
+.r-78 {
+  background: conic-gradient(var(--colorPrimary ) 280.8deg, #ededed 0deg);
+}
+.r-79 {
+  background: conic-gradient(var(--colorPrimary ) 284.4deg, #ededed 0deg);
+}
+.r-80 {
+  background: conic-gradient(var(--colorPrimary ) 288.0deg, #ededed 0deg);
+}
+.r-81 {
+  background: conic-gradient(var(--colorPrimary ) 291.6deg, #ededed 0deg);
+}
+.r-82 {
+  background: conic-gradient(var(--colorPrimary ) 295.2deg, #ededed 0deg);
+}
+.r-83 {
+  background: conic-gradient(var(--colorPrimary ) 298.8deg, #ededed 0deg);
+}
+.r-84 {
+  background: conic-gradient(var(--colorPrimary ) 302.4deg, #ededed 0deg);
+}
+.r-85 {
+  background: conic-gradient(var(--colorPrimary ) 306.0deg, #ededed 0deg);
+}
+.r-86 {
+  background: conic-gradient(var(--colorPrimary ) 309.6deg, #ededed 0deg);
+}
+.r-87 {
+  background: conic-gradient(var(--colorPrimary ) 313.2deg, #ededed 0deg);
+}
+.r-88 {
+  background: conic-gradient(var(--colorPrimary ) 316.8deg, #ededed 0deg);
+}
+.r-89 {
+  background: conic-gradient(var(--colorPrimary ) 320.4deg, #ededed 0deg);
+}
+.r-90 {
+  background: conic-gradient(var(--colorPrimary ) 324.0deg, #ededed 0deg);
+}
+.r-91 {
+  background: conic-gradient(var(--colorPrimary ) 327.6deg, #ededed 0deg);
+}
+.r-92 {
+  background: conic-gradient(var(--colorPrimary ) 331.2deg, #ededed 0deg);
+}
+.r-93 {
+  background: conic-gradient(var(--colorPrimary ) 334.8deg, #ededed 0deg);
+}
+.r-94 {
+  background: conic-gradient(var(--colorPrimary ) 338.4deg, #ededed 0deg);
+}
+.r-95 {
+  background: conic-gradient(var(--colorPrimary ) 342.0deg, #ededed 0deg);
+}
+.r-96 {
+  background: conic-gradient(var(--colorPrimary ) 345.6deg, #ededed 0deg);
+}
+.r-97 {
+  background: conic-gradient(var(--colorPrimary ) 349.2deg, #ededed 0deg);
+}
+.r-98 {
+  background: conic-gradient(var(--colorPrimary ) 352.8deg, #ededed 0deg);
+}
+.r-99 {
+  background: conic-gradient(var(--colorPrimary ) 356.4deg, #ededed 0deg);
+}
+.r-100 {
+  background: conic-gradient(var(--colorPrimary ) 360deg, #ededed 0deg);
+}
+/* -------------------- /backToTop-------------------------- */
+
+/* -------------------- Header Menu -------------------------- */
+.header-menu[data-hidden="true"] {
+  display: none !important;
+}
+/* -------------------- /Header Menu ------------------------- */

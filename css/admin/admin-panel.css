@@ -1,0 +1,24 @@
+.w-full{
+    width: 100%;
+}
+.w-6{
+    width: 24px;
+}
+.h-6{
+    height: 24px;
+}
+.flex{
+    display:  flex;
+}
+.mb-6{
+    margin-bottom: 10px;
+}
+.items-center{
+    align-items: center;
+}
+.justify-end{
+    justify-content: flex-end;
+}
+.ml-2{
+    margin-left: 5px;
+}

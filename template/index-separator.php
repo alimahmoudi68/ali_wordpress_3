@@ -1,0 +1,1 @@
+<div class='w-[3px] h-[60px] bg-primary-100 mx-auto mb-[60px] md:mb-[80px]'></div>

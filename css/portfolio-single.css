@@ -1,0 +1,13 @@
+.slider-single-portfolio .swiper-slide {
+  opacity: 0.5;
+  transform: scale(0.9);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.slider-single-portfolio .swiper-slide-active {
+  opacity: 1;
+  /* transform: scale(1.05); */
+  z-index: 2;
+}
+/* .slider-single-portfolio{
+  padding-bottom: 50px !important;
+} */
