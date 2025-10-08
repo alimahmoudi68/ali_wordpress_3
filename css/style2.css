@@ -36,7 +36,6 @@
     --radius-md: 0.375rem;
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
-    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --blur-xs: 4px;
     --blur-sm: 8px;
     --default-transition-duration: 150ms;
@@ -54,7 +53,6 @@
     --color-textPrimaryDark-100: rgba(236, 236, 237, 1);
     --color-textSecondaryDark-100: rgba(155, 156, 159, 1);
     --width-auto: auto;
-    --width-fit: fit-content;
     --height-auto: auto;
     --font-pinar: Pinar;
   }
@@ -244,17 +242,8 @@
   .top-\[50\%\] {
     top: 50%;
   }
-  .top-\[50\&\] {
-    top: 50&;
-  }
-  .top-\[50\] {
-    top: 50;
-  }
   .top-\[200px\] {
     top: 200px;
-  }
-  .top-\[300px\] {
-    top: 300px;
   }
   .right-0 {
     right: calc(var(--spacing) * 0);
@@ -319,6 +308,9 @@
   .my-5 {
     margin-block: calc(var(--spacing) * 5);
   }
+  .my-auto {
+    margin-block: auto;
+  }
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -348,9 +340,6 @@
   }
   .mb-\[60px\] {
     margin-bottom: 60px;
-  }
-  .ml-2 {
-    margin-left: calc(var(--spacing) * 2);
   }
   .block {
     display: block;
@@ -415,23 +404,23 @@
   .max-h-0 {
     max-height: calc(var(--spacing) * 0);
   }
-  .max-h-\[00px\] {
-    max-height: 00px;
+  .max-h-\[70\%\] {
+    max-height: 70%;
+  }
+  .max-h-\[70\] {
+    max-height: 70;
   }
   .max-h-\[200px\] {
     max-height: 200px;
   }
-  .max-h-\[600px\] {
-    max-height: 600px;
+  .max-h-\[400px\] {
+    max-height: 400px;
   }
-  .max-h-\[800px\] {
-    max-height: 800px;
+  .max-h-\[500px\] {
+    max-height: 500px;
   }
-  .max-h-\[1000\] {
-    max-height: 1000;
-  }
-  .max-h-\[1000px\] {
-    max-height: 1000px;
+  .max-h-\[۴۰۰حط\] {
+    max-height: ۴۰۰حط;
   }
   .top-img {
     width: 400px;
@@ -458,12 +447,6 @@
   }
   .w-\[90\%\] {
     width: 90%;
-  }
-  .w-auto {
-    width: auto;
-  }
-  .w-auto {
-    width: var(--width-auto);
   }
   .w-full {
     width: 100%;
@@ -499,14 +482,6 @@
   }
   .translate-x-\[-50\%\] {
     --tw-translate-x: -50%;
-    translate: var(--tw-translate-x) var(--tw-translate-y);
-  }
-  .translate-x-\[-50\] {
-    --tw-translate-x: -50;
-    translate: var(--tw-translate-x) var(--tw-translate-y);
-  }
-  .translate-x-\[-\] {
-    --tw-translate-x: -;
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .translate-y-\[-50\%\] {

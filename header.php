@@ -21,11 +21,11 @@
     <?php wp_head(); ?>
 </head>
 
-<body dir="<?php echo ( $lang == 'en' ) ? 'ltr' : 'rtl' ?>" class='h-screen bg-cream-100 font-pinar dark:bg-dark-100 flex flex-col items-center justify-center relative'> 
+<body dir="<?php echo ( $lang == 'en' ) ? 'ltr' : 'rtl' ?>" class='h-screen bg-cream-100 font-pinar dark:bg-dark-100 flex flex-col items-center justify-center relative overflow-hidden'> 
 
-<main class="w-full grow">
-    <div  class="container h-full mx-auto px-5" x-ref="container">
-        <div x-data="pageController()" class="w-full h-full flex flex-wrap items-center justify-center space-x-6 relative">
+<main class="w-full h-full flex items-center">
+    <div  class="container max-h-[500px] mx-auto my-auto px-5 overflow-y-auto" x-ref="container">
+        <div x-data="pageController()" class="w-full flex flex-wrap items-center justify-center space-x-6 relative">
         <!-- افکت نوری -->
         <div x-ref="flash" class="flash"></div>
 
@@ -40,18 +40,18 @@
         </template>
 
         <div class="flex items-center content bg-red-500 transition-all duration-700 relative">
-            <img class="absolute top-0 right-0" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+            <img class="absolute top-0 bottom-0 right-0 max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
 
-              <div class="flex-1 flex justify-center">
+              <div class="w-full flex justify-center">
                 <!-- صفحه اصلی (منو) -->
                 <template x-if="currentPage === 'home'">
                   <div x-ref="home" class="flex items-center justify-center">
                     <button @click="goTo('page2')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه دوم</button>
-                    <img class="" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+                    <img class="max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
                     <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-                    <img class="" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+                    <img class="max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
                     <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-                    <img class="" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+                    <img class="max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
                     <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
                   </div>
                 </template>
@@ -82,7 +82,7 @@
                   </div>
                 </template>
               </div>
-              <img class="absolute top-0 left-0" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+              <img class="absolute top-0 bottom-0 left-0 max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
             </div>
 
         </div>
