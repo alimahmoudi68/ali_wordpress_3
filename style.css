@@ -17,92 +17,6 @@ Use it to make something cool, have fun, and share what you've learned with othe
 [x-cloak]{
   display: none !important;
 }
-/* ----------------------------------------------- index ----------------------------------------- */
-#btn-our-service{
-  padding: .5em .8em;
-  color: rgba(255,255,255,.5);
-  position: relative;
-  text-decoration: none;
-  font-size: 20px;
-}
-
-#btn-our-service::before,
-#btn-our-service::after {
-  content: '';
-  height: 14px;
-  width: 14px;
-  position: absolute;
-  transition: all .35s ease;
-  opacity: 0;
-}
-
-#btn-our-service::before {
-  content: '';
-  right: 0;
-  top: 0;
-  border-top: 3px solid var(--colorPrimaryLigh);
-  border-right: 3px solid var(--colorPrimaryLigh);
-  transform: translate(-100%, 50%);
-}
-
-#btn-our-service:after {
-  content: '';
-  left: 0;
-  bottom: 0;
-  border-bottom: 3px solid var(--colorPrimaryLigh);
-  border-left: 3px solid var(--colorPrimaryLigh);
-  transform: translate(100%, -50%)
-}
-
-#btn-our-service:hover:before,
-#btn-our-service:hover:after{
-  transform: translate(0,0);
-  opacity: 1;
-}
-
-#btn-our-service:hover {
-  color: var(--colorPrimaryLigh);
-}
-.card-services .card-image-container img{
-  transition: all 0.3s ease-in;
-}
-.card-services:hover .card-image-container img{
-  transform: scale(110%);
-}
-/* ----------------------------------------------- swiperjs ----------------------------------------- */
-.pb-30{
-  padding-bottom: 30px !important;
-}
-.swiper-button-prev , .swiper-button-next{
-  transition: all 0.5s;
-  color : var(--colorPrimaryLight); 
-}
-.swiper-button-prev-slider:hover{
-  transform: translateX(-5px);
-}
-.swiper-button-next-slider:hover{
-  transform: translateX(5px);
-}
-@media only screen and (min-width:768px){
-  .swiper-button-prev , .swiper-button-next{
-    display: block !important ;
-  }
-} 
-.swiper-pagination{
-  margin-bottom: -5px !important;
-}
-.swiper-pagination-bullet{
-  border : 2px solid #fff !important;
-  background: transparent!important;
-}
-.swiper-pagination-bullet-active{
-  border : 2px solid var(--colorPrimaryLight) !important;
-  background: var(--colorPrimaryLight) !important;
-  width: 20px !important;
-  border-radius: 5px !important;
-}
-/* ----------------------------------------------- /swiperjs ----------------------------------------- */
-
 /* --------------------------------- backToTop---------------------------- */
 .r-1 {
   background: conic-gradient(var(--colorPrimary ) 3.6deg, #ededed 0deg);
@@ -406,8 +320,15 @@ Use it to make something cool, have fun, and share what you've learned with othe
 }
 /* -------------------- /backToTop-------------------------- */
 
-/* -------------------- Header Menu -------------------------- */
-.header-menu[data-hidden="true"] {
-  display: none !important;
+.flash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 50;
 }
-/* -------------------- /Header Menu ------------------------- */
+

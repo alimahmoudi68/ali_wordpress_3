@@ -18,7 +18,8 @@ require_once dirname( __FILE__ ) . '/functions/api/portfolio.php';
 
 // incluse css and js
 function add_theme_scripts(){
-	wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', array(), null, true);
+	// wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js', array(), null, true);
+	// wp_enqueue_script('master' , get_template_directory_uri().'/js/alpine.js' , array() , false , true);
 	wp_enqueue_style('fontiran' , get_template_directory_uri().'/css/fontiran.css' , array() , false , 'all');
 	wp_enqueue_style('style2' ,  get_template_directory_uri().'/css/style2.css' , array() , false , 'all');
 	wp_enqueue_style('style' , get_stylesheet_uri() , array() , false , 'all');
@@ -27,14 +28,14 @@ function add_theme_scripts(){
 
 
 	if ( is_home() ) {
-		wp_enqueue_script('typewriter', get_template_directory_uri() . '/js/typewriter.js' , array() , false , true );
-		wp_enqueue_script('swiper.min', get_template_directory_uri() . '/js/swiper.min.js' , array() , false , true );
-		wp_enqueue_style('swiper.min' , get_template_directory_uri().'/css/swiper.min.css' , array() , false , 'all');
+		// wp_enqueue_script('typewriter', get_template_directory_uri() . '/js/typewriter.js' , array() , false , true );
+		// wp_enqueue_script('swiper.min', get_template_directory_uri() . '/js/swiper.min.js' , array() , false , true );
+		// wp_enqueue_style('swiper.min' , get_template_directory_uri().'/css/swiper.min.css' , array() , false , 'all');
 		wp_enqueue_script('index', get_template_directory_uri() . '/js/index.js' , array('swiper.min') , false , true );
 		// Pass basePath (works for subfolder installs like /portfolio)
-		wp_localize_script('master', 'themeGlobals', array(
-			'basePath' => parse_url(home_url(), PHP_URL_PATH),
-		));
+		// wp_localize_script('master', 'themeGlobals', array(
+		// 	'basePath' => parse_url(home_url(), PHP_URL_PATH),
+		// ));
 	}
 
 
