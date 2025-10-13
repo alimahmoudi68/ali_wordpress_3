@@ -23,66 +23,74 @@
 
 <body dir="<?php echo ( $lang == 'en' ) ? 'ltr' : 'rtl' ?>" class='h-screen bg-cream-100 font-pinar dark:bg-dark-100 flex flex-col items-center justify-center relative overflow-hidden'> 
 
-<main class="w-full h-full flex items-center">
-    <div  class="container max-h-[500px] mx-auto my-auto px-5 overflow-y-auto" x-ref="container">
-        <div x-data="pageController()" class="w-full flex flex-wrap items-center justify-center space-x-6 relative">
+<main class="w-full h-full flex flex-wrap items-around">
+
+    <div x-data="pageController()" class="container mx-auto my-auto px-5" x-ref="container">
+        <div class="w-full flex flex-wrap items-center justify-center space-x-6 relative">
         <!-- افکت نوری -->
         <div x-ref="flash" class="flash"></div>
 
-        <!-- تاپ منو -->
-        <template x-if="showTopMenu">
-          <div x-ref="home" class="fixed top-[200px] w-full flex items-center justify-center">
-            <button @click="goTo('page2')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه دوم</button>
-            <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-            <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-            <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-          </div>
-        </template>
-
-        <div class="flex items-center content bg-red-500 transition-all duration-700 relative">
-            <img class="absolute top-0 bottom-0 right-0 max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-
-              <div class="w-full flex justify-center">
-                <!-- صفحه اصلی (منو) -->
-                <template x-if="currentPage === 'home'">
-                  <div x-ref="home" class="flex items-center justify-center">
-                    <button @click="goTo('page2')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه دوم</button>
-                    <img class="max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-                    <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-                    <img class="max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-                    <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-                    <img class="max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-                    <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-                  </div>
-                </template>
-                <!-- صفحه لودینگ -->
-                <template x-if="loading">
-                  <div x-ref="loading" class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center bg-gray-100 text-gray-600">
-                    <span>در حال بارگذاری...</span>
-                  </div>
-                </template>
-                <!-- صفحه ۲ -->
-                <template x-if="currentPage === 'page2'">
-                  <div x-ref="page2" class="w-full overflow-auto">
-                    <h2 class="text-lg font-bold mb-2">صفحه دوم 📄</h2>
-                    <template x-for="item in data" :key="item.id">
-                      <div class="border-b border-indigo-400 py-1" x-text="item.title"></div>
-                    </template>
-                    <button @click="backToHome()" class="mt-4 bg-white text-indigo-700 px-3 py-1 rounded">بازگشت</button>
-                  </div>
-                </template>
-                <!-- صفحه ۳ -->
-                <template x-if="currentPage === 'page3'">
-                  <div x-ref="page3" class="absolute inset-0 bg-green-600 text-white p-4 rounded-xl overflow-auto">
-                    <h2 class="text-lg font-bold mb-2">صفحه سوم 📊</h2>
-                    <template x-for="item in data" :key="item.id">
-                      <div class="border-b border-green-400 py-1" x-text="item.name"></div>
-                    </template>
-                    <button @click="backToHome()" class="mt-4 bg-white text-green-700 px-3 py-1 rounded">بازگشت</button>
-                  </div>
-                </template>
-              </div>
-              <img class="absolute top-0 bottom-0 left-0 max-h-[400px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+          <!-- تاپ منو -->
+          <template x-if="showTopMenu">
+            <div class="w-full h-fit flex items-center justify-center">
+            <button @click="loadHomePage()" 
+                      :class="currentPage === '/' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+                      class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه اصلی</button>
+              <button @click="loadPage('/about')" 
+                      :class="currentPage === '/about' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+                      class="cursor-pointer hover:text-primary-100 px-3 py-1">درباره من</button>
+              <button @click="loadPage('page3')" 
+                      :class="currentPage === 'page3' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+                      class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
+              <button @click="loadPage('page3')" 
+                      :class="currentPage === 'page3' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+                      class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
+              <button @click="loadPage('/contact')" 
+                      :class="currentPage === '/contact' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+                      class="cursor-pointer hover:text-primary-100 px-3 py-1">تماس با من</button>
             </div>
+          </template>
+
+        <div class="w-fit flex items-center contentContainer transition-all duration-700 relative">
+          <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+
+          <div class="w-full flex justify-center h-[400px] overflow-y-auto overflow-x-hidden scroll-pl-6">
+            <!-- صفحه اصلی (منو) -->
+            <template x-if="currentPage === 'home'">
+              <div x-ref="home" class="w-[500px] flex items-center justify-around">
+                <button @click="goTo('/about')" class="cursor-pointer hover:text-primary-100 px-3 py-1">درباره من</button>
+                <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+                <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
+                <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+                <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
+                <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+                <button @click="goTo('/contact')" class="cursor-pointer hover:text-primary-100 px-3 py-1">تماس با من</button>
+              </div>
+            </template>
+            <!-- صفحه لودینگ -->
+            <template x-if="loading">
+              <div x-ref="loading" class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-gray-600">
+                <span>در حال بارگذاری...</span>
+              </div>
+            </template>
+            <!-- about -->
+            <template x-if="currentPage === '/about'">
+              <div x-ref="/about" class="w-full h-full">
+                <div x-html="pageContent"></div>
+              </div>
+            </template>
+
+            <!-- contact -->
+            <template x-if="currentPage === '/contact'">
+              <div x-ref="/contact" class="w-full h-full">
+                <div x-html="pageContent"></div>
+              </div>
+            </template>
+
+
+          </div>
+
+          <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+        </div>
 
         </div>

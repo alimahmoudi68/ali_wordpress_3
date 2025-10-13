@@ -17,12 +17,13 @@
       currentPage: 'home',
       loading: false,
       data: [],
+      pageContent: '',
 
 
       animateContantWidth(target, options = {}) {
-        const el = document.querySelector('.content');
+        const el = document.querySelector('.contentContainer');
         if (!el) {
-          console.warn('Element with class "content" not found');
+          console.warn('Element with class "contentContainer" not found');
           return false;
         }
 
@@ -67,7 +68,8 @@
         return true;
       },
 
-        async goTo(page) {
+
+        async goTo(page , isFromHome = true) {
           const homeEl = this.$refs.home;
           const flash = this.$refs.flash;
 
@@ -83,14 +85,25 @@
                 // افکت نور
                 gsap.to(flash, { opacity: 0.7, duration: 0.2, yoyo: true, repeat: 1 });
 
-              // فچ داده‌ها
-              let res;
-              if (page === 'page2') {
-                res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
-              } else {
-                res = await fetch('https://jsonplaceholder.typicode.com/users?_limit=5');
+               
+              try {
+                const homeBase = "<?php echo esc_url( home_url( '/' ) ); ?>";
+                const url = homeBase.replace(/\/+$/, '/') + String(page).replace(/^\/+/, '');
+                const response = await fetch(url, { credentials: 'same-origin' });
+                const html = await response.text();
+                console.log('html' , html)
+                const parser = new DOMParser();
+                console.log('parser' , parser)
+                const doc = parser.parseFromString(html, 'text/html');
+                console.log('doc' , doc)
+                const contentEl = doc.querySelector('.content');
+                this.pageContent = contentEl ? contentEl.innerHTML : '';
+                console.log('contentEl' , contentEl)
+              } catch (err) {
+                console.error('Failed to fetch /about content:', err);
+                this.pageContent = '';
               }
-              this.data = await res.json();
+              
 
               // نمایش لودینگ حداقل 5 ثانیه
               await new Promise(resolve => setTimeout(resolve, 2000));
@@ -110,7 +123,6 @@
                 { y: -200, opacity: 0, scale: 1 },
                 { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power3.out",
                   onComplete: async () => {
-                    this.bordersClosed = false;
                     await this.$nextTick();
                   }
                 }
@@ -140,33 +152,64 @@
           }, "-=0.2");
         },
 
-      backToHome() {
-        const page = this.currentPage;
-        const left = document.querySelector('.border-left');
-        const right = document.querySelector('.border-right');
-        const flash = this.$refs.flash;
 
-        const tl = gsap.timeline({
-          onComplete: () => {
-            this.currentPage = 'home';
-            this.data = [];
+        async loadPage(page) {
+          // شروع انیمیشن خروج صفحه فعلی - محو شدن به سمت بالا
+          gsap.fromTo(this.$refs[this.currentPage], 
+            { y: 0, opacity: 1, scale: 1 },
+            { y: -200, opacity: 0, scale: 1, duration: 1.2, ease: "power3.in",
+              onComplete: async () => {
+                this.loading = true;
+                await this.$nextTick();
+              }
+            }
+          );
+
+          // صبر می‌کنیم تا انیمیشن خروج تمام شود
+          await new Promise(resolve => setTimeout(resolve, 1200));
+
+          try {
+            const homeBase = "<?php echo esc_url( home_url( '/' ) ); ?>";
+            const url = homeBase.replace(/\/+$/, '/') + String(page).replace(/^\/+/, '');
+            const response = await fetch(url, { credentials: 'same-origin' });
+            const html = await response.text();
+            console.log('html' , html)
+            const parser = new DOMParser();
+            console.log('parser' , parser)
+            const doc = parser.parseFromString(html, 'text/html');
+            console.log('doc' , doc)
+            const contentEl = doc.querySelector('.content');
+            this.pageContent = contentEl ? contentEl.innerHTML : '';
+            console.log('contentEl' , contentEl)
+          } catch (err) {
+            console.error('Failed to fetch page content:', err);
+            this.pageContent = '';
           }
-        });
 
-        tl.to(this.$refs[page], { x: 150, opacity: 0, scale: 0.9, duration: 0.6, ease: "power2.in" })
-          .to([left, right], 
-              { x: (i) => (i === 0 ? "+=60" : "-=60"), duration: 0.8, ease: "elastic.out(1, 0.6)" }, 
-              "-=0.3")
-          .fromTo(this.$refs.home, 
-              { x: -120, opacity: 0 }, 
-              { x: 0, opacity: 1, duration: 0.8, ease: "back.out(1.7)",
-                onComplete: () => {
-                  this.bordersClosed = false;
-                }
-              },
-              "-=0.2")
-          .to(flash, { opacity: 0.4, duration: 0.15, yoyo: true, repeat: 1 }, "-=0.5");
-      }
+          // تغییر صفحه و غیرفعال کردن لودینگ
+          this.currentPage = page;
+          this.loading = false;
+          await this.$nextTick();
+
+          // انیمیشن ورود صفحه جدید
+          gsap.fromTo(this.$refs[page], 
+            { y: -200, opacity: 0, scale: 1 },
+            { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power3.out",
+              onComplete: async () => {
+                this.bordersClosed = false;
+                await this.$nextTick();
+              }
+            }
+          );
+       
+        },
+
+        loadHomePage(){
+          this.currentPage = 'home';
+          this.showTopMenu = false;
+          this.pageContent ='';
+          this.animateContantWidth(500);        
+        }
     }
   }
 </script>
