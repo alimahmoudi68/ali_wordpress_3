@@ -16,8 +16,9 @@
     <meta name="description" content="<?php bloginfo('description') ?>">
     <meta name="keywords" content="<?php bloginfo('description') ?>">
     <link rel="shortcut icon" href="<?php echo get_template_directory_uri().'/images/favicon.png' ?>" title="Favicon" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
     <?php wp_head(); ?>
 </head>
 
@@ -33,11 +34,11 @@
           <!-- تاپ منو -->
           <template x-if="showTopMenu">
             <div class="w-full h-fit flex items-center justify-center">
-            <button @click="loadHomePage()" 
-                      :class="currentPage === '/' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+            <button @click="loadPage('/')" 
+                      :class="currentPage === '/' || initUrl === '/' ? 'border-r-2 border-l-2 border-primary-100' : ''"
                       class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه اصلی</button>
-              <button @click="loadPage('/about')" 
-                      :class="currentPage === '/about' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+              <button @click="loadPage('/about/')" 
+                      :class="currentPage === '/about/' || initUrl === '/about/' ? 'border-r-2 border-l-2 border-primary-100' : ''"
                       class="cursor-pointer hover:text-primary-100 px-3 py-1">درباره من</button>
               <button @click="loadPage('page3')" 
                       :class="currentPage === 'page3' ? 'border-r-2 border-l-2 border-primary-100' : ''"
@@ -45,8 +46,8 @@
               <button @click="loadPage('page3')" 
                       :class="currentPage === 'page3' ? 'border-r-2 border-l-2 border-primary-100' : ''"
                       class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-              <button @click="loadPage('/contact')" 
-                      :class="currentPage === '/contact' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+              <button @click="loadPage('/contact/')" 
+                      :class="currentPage === '/contact/' || initUrl === '/contact/' ? 'border-r-2 border-l-2 border-primary-100' : ''"
                       class="cursor-pointer hover:text-primary-100 px-3 py-1">تماس با من</button>
             </div>
           </template>
@@ -56,15 +57,15 @@
 
           <div class="w-full flex justify-center h-[400px] overflow-y-auto overflow-x-hidden scroll-pl-6">
             <!-- صفحه اصلی (منو) -->
-            <template x-if="currentPage === 'home'">
+            <template x-if="currentPage === '/'">
               <div x-ref="home" class="w-[500px] flex items-center justify-around">
-                <button @click="goTo('/about')" class="cursor-pointer hover:text-primary-100 px-3 py-1">درباره من</button>
+                <button @click="goTo('/about/')" class="cursor-pointer hover:text-primary-100 px-3 py-1">درباره من</button>
                 <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
                 <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
                 <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
                 <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
                 <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-                <button @click="goTo('/contact')" class="cursor-pointer hover:text-primary-100 px-3 py-1">تماس با من</button>
+                <button @click="goTo('/contact/')" class="cursor-pointer hover:text-primary-100 px-3 py-1">تماس با من</button>
               </div>
             </template>
             <!-- صفحه لودینگ -->
@@ -74,23 +75,20 @@
               </div>
             </template>
             <!-- about -->
-            <template x-if="currentPage === '/about'">
-              <div x-ref="/about" class="w-full h-full">
+            <template x-if="currentPage === '/about/'">
+              <div x-ref="/about/" class="w-full h-full">
                 <div x-html="pageContent"></div>
               </div>
             </template>
 
             <!-- contact -->
-            <template x-if="currentPage === '/contact'">
-              <div x-ref="/contact" class="w-full h-full">
+            <template x-if="currentPage === '/contact/'">
+              <div x-ref="/contact/" class="w-full h-full">
                 <div x-html="pageContent"></div>
               </div>
             </template>
 
 
-          </div>
+      
 
-          <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-        </div>
-
-        </div>
+      

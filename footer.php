@@ -1,8 +1,10 @@
 <?php
     $lang = get_current_lang();
 ?>
-
-
+            </div>
+          <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+        </div>
+      </div>
     </div>
 </main>
 
@@ -13,11 +15,29 @@
 <script>
   function pageController() {
     return {
+      basePath : "<?php echo esc_js( parse_url( home_url(), PHP_URL_PATH ) ); ?>",
       showTopMenu: <?php echo ( is_front_page() || is_home() ) ? 'false' : 'true'; ?>,
-      currentPage: 'home',
+      initUrl: "<?php echo esc_js( str_replace( parse_url( home_url(), PHP_URL_PATH ), '', $_SERVER['REQUEST_URI'] ) ); ?>",
+      currentPage: null,
       loading: false,
       data: [],
       pageContent: '',
+
+      init() {
+        console.log('currentPage' , this.currentPage)
+      },
+  
+      
+      // init() {
+      //   if (typeof window.gsap === 'undefined') {
+      //     console.warn('GSAP not loaded yet');
+      //     return;
+      //   }
+      //   if (this.currentPage !== '/' && this.currentPage !== '/home' && this.currentPage !== '') {
+      //     this.loadPage(this.currentPage);
+      //   }
+      // },
+
 
 
       animateContantWidth(target, options = {}) {
@@ -45,7 +65,7 @@
         }
 
         const duration = typeof options.duration === 'number' ? options.duration : 0.9;
-        const ease = options.ease || 'power3.inOut';
+        const ease = 'linear';
 
         console.log('Animating content width to:', width);
 
@@ -58,7 +78,7 @@
             onComplete: () => console.log('Animation completed')
           });
         } else {
-          el.style.transition = `width ${duration}s ease`;
+          el.style.transition = `width ${duration}s linear`;
           requestAnimationFrame(() => { 
             el.style.width = width;
             console.log('CSS transition applied');
@@ -67,9 +87,22 @@
 
         return true;
       },
+      contentWidthFull(){
+        const el = document.querySelector('.contentContainer');
+        if (el) {
+          el.style.width ='100%';
+        }
+      },
+      removeContentServerSide(){
+        let contentServerRender = document.querySelector('.content');
+        if(contentServerRender){
+          contentServerRender.remove();
+        }
+      },
 
 
         async goTo(page , isFromHome = true) {
+          this.initUrl = null;
           const homeEl = this.$refs.home;
           const flash = this.$refs.flash;
 
@@ -119,6 +152,11 @@
               this.currentPage = page;
               await this.$nextTick();
 
+              const fullUrl = this.basePath.replace(/\/$/, '') + page;
+              window.history.pushState({}, '', fullUrl);
+
+              this.removeContentServerSide();
+
               gsap.fromTo(this.$refs[page], 
                 { y: -200, opacity: 0, scale: 1 },
                 { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power3.out",
@@ -154,16 +192,40 @@
 
 
         async loadPage(page) {
+          this.initUrl = null;
           // شروع انیمیشن خروج صفحه فعلی - محو شدن به سمت بالا
-          gsap.fromTo(this.$refs[this.currentPage], 
-            { y: 0, opacity: 1, scale: 1 },
-            { y: -200, opacity: 0, scale: 1, duration: 1.2, ease: "power3.in",
-              onComplete: async () => {
-                this.loading = true;
-                await this.$nextTick();
+          if(this.currentPage){
+
+            gsap.fromTo(this.$refs[this.currentPage], 
+              { y: 0, opacity: 1, scale: 1 },
+              { y: -200, opacity: 0, scale: 1, duration: 1.2, ease: "power3.in",
+                onComplete: async () => {
+                  this.loading = true;
+                  await this.$nextTick();
+                }
               }
-            }
-          );
+            );
+            
+          }else{
+
+            const contentEl = document.querySelector('.content');
+            gsap.fromTo(
+              contentEl,
+              { y: 0, opacity: 1, scale: 1 },
+              {
+                y: -200,
+                opacity: 0,
+                scale: 1,
+                duration: 1.2,
+                ease: "power3.in",
+                onComplete: async () => {
+                  this.loading = true;
+                  await this.$nextTick();
+                }
+              }
+            );
+
+          }
 
           // صبر می‌کنیم تا انیمیشن خروج تمام شود
           await new Promise(resolve => setTimeout(resolve, 1200));
@@ -171,6 +233,12 @@
           try {
             const homeBase = "<?php echo esc_url( home_url( '/' ) ); ?>";
             const url = homeBase.replace(/\/+$/, '/') + String(page).replace(/^\/+/, '');
+            
+            let contentServerRender = document.querySelector('.content');
+            if(contentServerRender){
+              this.contentWidthFull();
+              contentServerRender.remove();
+            }
             const response = await fetch(url, { credentials: 'same-origin' });
             const html = await response.text();
             console.log('html' , html)
@@ -191,6 +259,14 @@
           this.loading = false;
           await this.$nextTick();
 
+          if(page == '/'){
+            this.showTopMenu = false;
+            this.animateContantWidth(500 , {duration : 0.1}); 
+          }  
+
+          const fullUrl = this.basePath.replace(/\/$/, '') + page;
+          window.history.pushState({}, '', fullUrl);
+
           // انیمیشن ورود صفحه جدید
           gsap.fromTo(this.$refs[page], 
             { y: -200, opacity: 0, scale: 1 },
@@ -203,13 +279,6 @@
           );
        
         },
-
-        loadHomePage(){
-          this.currentPage = 'home';
-          this.showTopMenu = false;
-          this.pageContent ='';
-          this.animateContantWidth(500);        
-        }
     }
   }
 </script>
