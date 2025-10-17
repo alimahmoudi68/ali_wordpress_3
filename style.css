@@ -332,3 +332,22 @@ Use it to make something cool, have fun, and share what you've learned with othe
   z-index: 50;
 }
 
+/* -------------------- custom scrollbar -------------------------- */
+
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 1);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(221, 185, 39, 1);
+  outline: 1px solid rgba(221, 185, 39, 1);
+  border-radius: 10px;
+}
+
+/* -------------------- /custom scrollbar -------------------------- */
+

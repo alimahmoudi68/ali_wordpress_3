@@ -11,7 +11,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
     <meta name="theme-color" content="<?php echo get_option('my_color'); ?>" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php
+        // Remove duplicate viewport; keep the first. Add canonical.
+        if (function_exists('is_singular') && is_archive()) {
+            $canonical = get_post_type_archive_link(get_query_var('post_type')) ?: home_url(add_query_arg(array(), $wp->request));
+        } else {
+            $canonical = home_url(add_query_arg(array(), $wp->request));
+        }
+    ?>
+    <link rel="canonical" href="<?php echo esc_url($canonical); ?>" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="description" content="<?php bloginfo('description') ?>">
     <meta name="keywords" content="<?php bloginfo('description') ?>">
@@ -33,16 +41,16 @@
 
           <!-- تاپ منو -->
           <template x-if="showTopMenu">
-            <div class="w-full h-fit flex items-center justify-center">
+            <div class="w-full h-fit flex items-center justify-center mb-10">
             <button @click="loadPage('/')" 
                       :class="currentPage === '/' || initUrl === '/' ? 'border-r-2 border-l-2 border-primary-100' : ''"
                       class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه اصلی</button>
               <button @click="loadPage('/about/')" 
                       :class="currentPage === '/about/' || initUrl === '/about/' ? 'border-r-2 border-l-2 border-primary-100' : ''"
                       class="cursor-pointer hover:text-primary-100 px-3 py-1">درباره من</button>
-              <button @click="loadPage('page3')" 
-                      :class="currentPage === 'page3' ? 'border-r-2 border-l-2 border-primary-100' : ''"
-                      class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
+              <button @click="loadPage('/portfolio/')" 
+                      :class="currentPage === '/portfolio/' ? 'border-r-2 border-l-2 border-primary-100' : ''"
+                      class="cursor-pointer hover:text-primary-100 px-3 py-1">نمونه کارها</button>
               <button @click="loadPage('page3')" 
                       :class="currentPage === 'page3' ? 'border-r-2 border-l-2 border-primary-100' : ''"
                       class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
@@ -53,38 +61,40 @@
           </template>
 
         <div class="w-fit flex items-center contentContainer transition-all duration-700 relative">
-          <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+          <img class="w-auto h-[550px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
 
-          <div class="w-full flex justify-center h-[400px] overflow-y-auto overflow-x-hidden scroll-pl-6">
-            <!-- صفحه اصلی (منو) -->
-            <template x-if="currentPage === '/'">
-              <div x-ref="home" class="w-[500px] flex items-center justify-around">
-                <button @click="goTo('/about/')" class="cursor-pointer hover:text-primary-100 px-3 py-1">درباره من</button>
-                <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-                <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-                <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-                <button @click="goTo('page3')" class="cursor-pointer hover:text-primary-100 px-3 py-1">صفحه سوم</button>
-                <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
-                <button @click="goTo('/contact/')" class="cursor-pointer hover:text-primary-100 px-3 py-1">تماس با من</button>
-              </div>
-            </template>
+          <div class="w-full flex justify-center h-[600px] overflow-y-auto overflow-x-hidden scroll-pl-6 custom-scrollbar">
             <!-- صفحه لودینگ -->
             <template x-if="loading">
               <div x-ref="loading" class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-gray-600">
                 <span>در حال بارگذاری...</span>
               </div>
             </template>
+            <!-- home -->
+            <template x-if="currentPage === '/'">
+              <div x-ref="/" class="w-full h-full px-3">
+                <div x-html="pageContent" class='w-full h-full'></div>
+              </div>
+            </template>
             <!-- about -->
             <template x-if="currentPage === '/about/'">
-              <div x-ref="/about/" class="w-full h-full">
-                <div x-html="pageContent"></div>
+              <div x-ref="/about/" class="w-full h-full px-3">
+                <div x-html="pageContent" class='w-full h-full'></div>
               </div>
             </template>
 
+            <!-- portfolio -->
+            <template x-if="currentPage === '/portfolio/'">
+              <div x-ref="/portfolio/" class="w-full h-full px-3">
+                <div x-html="pageContent" class='w-full h-full'></div>
+              </div>
+            </template>
+
+
             <!-- contact -->
             <template x-if="currentPage === '/contact/'">
-              <div x-ref="/contact/" class="w-full h-full">
-                <div x-html="pageContent"></div>
+              <div x-ref="/contact/" class="w-full h-full px-3">
+                <div x-html="pageContent" class='w-full h-full'></div>
               </div>
             </template>
 

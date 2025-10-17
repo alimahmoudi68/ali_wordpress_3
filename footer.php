@@ -2,7 +2,7 @@
     $lang = get_current_lang();
 ?>
             </div>
-          <img class="w-auto h-[350px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
+          <img class="w-auto h-[550px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
         </div>
       </div>
     </div>
