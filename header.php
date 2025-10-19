@@ -11,15 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
     <meta name="theme-color" content="<?php echo get_option('my_color'); ?>" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <?php
-        // Remove duplicate viewport; keep the first. Add canonical.
-        if (function_exists('is_singular') && is_archive()) {
-            $canonical = get_post_type_archive_link(get_query_var('post_type')) ?: home_url(add_query_arg(array(), $wp->request));
-        } else {
-            $canonical = home_url(add_query_arg(array(), $wp->request));
-        }
-    ?>
-    <link rel="canonical" href="<?php echo esc_url($canonical); ?>" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="description" content="<?php bloginfo('description') ?>">
     <meta name="keywords" content="<?php bloginfo('description') ?>">

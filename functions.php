@@ -19,6 +19,7 @@ require_once dirname(__FILE__) . '/functions/rewrites/rewrites.php';
 \*------------------------------------*/
 
 function theme_enqueue_assets() {
+
 	wp_enqueue_style('fontiran', get_template_directory_uri() . '/css/fontiran.css', [], false, 'all');
 	wp_enqueue_style('style2', get_template_directory_uri() . '/css/style2.css', [], false, 'all');
 	wp_enqueue_style('main-style', get_stylesheet_uri(), [], false, 'all');
@@ -197,3 +198,5 @@ function make_url($lang, $address) {
 \*------------------------------------*/
 
 require_once dirname(__FILE__) . '/functions/api/portfolio.php';
+
+
