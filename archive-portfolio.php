@@ -102,7 +102,7 @@ get_header();
 <div class='content'>
 
     <span class="text-[1.2rem] dark:text-white-100 font-bold block mb-3" >
-        ایده های پست و استوری
+        ت
     </span>
 
     <div x-data="allPost()" class='w-full flex flex-col'> 
@@ -311,7 +311,7 @@ get_header();
         </div> 
 
 
-        <div x-show="showDetail" x-cloak class='bg-black-70 fixed top-0 bottom-0 left-0 right-0 md:pr-[290px] flex flex-col items-center justify-center'>
+        <<div x-show="showDetail" x-cloak class='bg-black-70 fixed top-0 bottom-0 left-0 right-0 md:pr-[290px] flex flex-col items-center justify-center'>
             
             <div class='w-full max-w-[80%] md:max-w-[60%] flex justify-end mb-3 ml-[0px]'>
                 <div class='flex gap-x-1 p-1 border border-white-100 text-white-100 rounded-lg cursor-pointer' @click='closeDetailHandler()'>
@@ -362,250 +362,45 @@ get_header();
                 </template>
 
             </div>
-        </div>
+        </div> 
     </div>
+
+
+    <?php 
+    foreach ($attributes as $attribute) {
+        $attributeName = $attribute->title; // ? مثل color
+        if ( isset($_GET[$attributeName]) ) { // اگر ویژگی‌ای از درخواست ارسال شده باشد
+            $terms = explode(',', sanitize_text_field($_GET[$attributeName]));
+            $filterObj->$attributeName = $terms;
+        }
+    }
+    ?>
+
+    <?php
+    // داده‌های مورد نیاز برای js
+    $wpPortfolioData = [
+        'url' =>  home_url('/wp-json/myapi/v1/portfolios'),
+        'filterElementKey' => $filterElKeyObj,
+        'filtersTemp' => $filterObj,
+        'filters' => $filterObj,
+        'allAttributes' => $product_attributes,
+        'limit' => intval($limit),
+        'totalPosts' => intval($total_posts),
+        'posts' => $posts,
+    ];
+
+    // برای حالت نرمال (نه AJAX) همچنان localize اجرا شود
+    wp_localize_script('archive-portfolio', 'wpPortfolio', $wpPortfolioData);
+    ?>
+
+    <!-- 🔥 این بخش جدید است: داده را مستقیماً در HTML می‌ریزیم تا با fetch هم برگردد -->
+    <script id="wpPortfolio-data">
+    window.wpPortfolio = <?php echo wp_json_encode($wpPortfolioData, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT); ?>;
+    </script>
+
 </div>    
 
 
-<?php 
-foreach ($attributes as $attribute) {
-    $attributeName = $attribute->title; // ? مثل color
-    if ( isset($_GET[$attributeName]) ) { // اگر ویژگی‌ای از درخواست ارسال شده باشد
-        $terms = explode(',', sanitize_text_field($_GET[$attributeName]));
-        $filterObj->$attributeName = $terms;
-    }
-}
-?>
-<script>
-    document.addEventListener("alpine:init" , ()=>{
-        Alpine.data('dropdown' , ()=>({
-        open:false ,
-        close(){
-            if(open){
-                let filtersOld = this.filters;
-                this.filtersTemp = filtersOld;
-                this.filtersTemp = JSON.parse(JSON.stringify(this.filters)); 
-                this.open = false;
-
-            }
-        },
-        toggle(){
-            let filtersOld = {...this.filters};
-            this.filtersTemp = JSON.parse(JSON.stringify(this.filters)); 
-            this.open = !this.open;
-        },
-        }));
-    })
-
-    // filterElementKey = {
-    //     color : '' ,
-    //     size : ''
-    // }
-
-    // filter = {
-    //     color : [] ,
-    //     size : []
-    // }
-
-    // filter = {
-    //     color : [{key : 'core-i5' , value : 'پنج هسته'}] ,
-    //     size : []
-    // }
-
-
-    function allPost() {
-        return {
-            url : '<?php echo home_url(); ?>/portfolio?' ,
-            filterElementKey : <?php echo json_encode( $filterElKeyObj ); ?>,
-            filtersTemp : <?php echo json_encode( ['cat' => array_filter(explode(',', $cat))] ); ?>,
-            filters : <?php echo json_encode( ['cat' => array_filter(explode(',', $cat))] ); ?>,
-            allAttributes : <?php echo json_encode( $product_attributes); ?> ,
-            loading: false,
-            page: 1,
-            totalPage :  Math.ceil(<?php echo intval($total_posts) ?> / <?php echo intval($limit) ?>),
-            posts :   <?php echo json_encode( $posts); ?> ,
-            totalPage : null,
-            showDetail : false ,
-            detailData : {} ,
-            loaded: false,
-            init() {
-
-                //console.log('filterElementKey' , this.filterElementKey)
-
-                this.loaded = true;
-            },
-            fetchPosts(query , p) {
-                if (this.loading) return;
-                this.loading = true;
-
-                console.log('qq' , query)
-
-                if(p == 1){
-                    this.posts = [];
-                }else{
-                    query = `page=${p}${query.length > 0 ?  '&' : ''}${query}`;
-                }
-
-                // Fetch data from the API
-                fetch(`<?php echo home_url('/wp-json/myapi/v1/portfolios'); ?>?page=${p}${query !== "" ? '&'+query : ''}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        //console.log(data)
-                        if(data.portfolios.length > 0){
-                            if(p==1){
-                                this.posts = data.portfolios;
-                            }else{
-                                this.posts.push(...data.portfolios);
-                            }
-                            this.page = p; 
-                            
-                            this.totalPage =  Math.ceil(data.total / <?php echo $limit ?>) ;
-                            
-                        }else{
-
-                            this.totalPage = 0;
-                        }
-
-            
-                        this.loading = false;
-
-                        window.history.pushState({}, '', this.url+query);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching posts:', error);
-                        this.loading = false;
-                    });
-            },
-            makeFilterUrl(nextPage){
-
-                let filtersTempOld = {...this.filtersTemp};
-             
-                this.filters = filtersTempOld; 
-
-
-                let filterArr = Object.keys(this.filters).map((key) => [key, this.filters[key]]);
-                const result = [];
-
-                filterArr.forEach(item => {
-                    const key = item[0];
-                    const values = item[1];
-
-                    if (values.length > 0) { 
-                        result.push(`${key}=${values.join(',')}`);
-                    }
-                });
-
-                let query =  result.join('&');
-                // console.log(query)
-
-                this.fetchPosts(query , nextPage);
-                this.open = false;
-
-            },
-            filterToList(obj){
-
-                const result = [];
-
-                for (const key in obj) {
-                    if (obj.hasOwnProperty(key)) {
-                        const values = obj[key];
-
-                        values.forEach(value => {
-                            result.push({ key: key, value: value });
-                        });
-                    }
-                }
-
-                console.log('re' , result)
-
-                return result;
-
-            },
-            isShowFilterElement(filterName , attributeName){
-
-                if(attributeName.includes( this.filterElementKey[filterName] )){
-                    return true;
-                }else{
-                    return false;
-                }
-
-            },
-            updateFilters(id , type , isMakeFilterUrl = false) {
-
-                console.log('>>>>>' ,type, id);
-
-                if(this.filtersTemp[type].includes(id)){
-                    let oldFilters = this.filtersTemp ;
-                    oldFilters[type] = oldFilters[type].filter(item => item !== id);
-                    this.filtersTemp = oldFilters;
-
-                }else{
-
-                    let oldFilters = this.filtersTemp ;
-                    oldFilters[type].push(id);
-                    this.filtersTemp = oldFilters;
-                }
-
-                if(isMakeFilterUrl){
-                    if(type=='priceMin' || type=='priceMax'){
-                        $slider.value1 = this.filtersTemp.priceMin[0] ?? 0;
-                        $slider.value2 = this.filtersTemp.priceMax[0] ?? 10000000;
-                    }
-                    this.makeFilterUrl(1);
-                }
-
-                console.log( 'this.filters', this.filters);
-                console.log('filtersTemp' , this.filtersTemp);
-                console.log('totalPage' , this.totalPage);
-
-            },
-            clearFilter(type) {
-                console.log('t' , type) 
-                let oldFiltersTemp = this.filtersTemp ;
-                oldFiltersTemp[type] = [];
-                console.log('oldFiltersTemp' , oldFiltersTemp)
-                this.filtersTemp = oldFiltersTemp;
-            },
-            getAttribiteName(attribute , term){
-
-                console.log('this.allAttributes' , this.allAttributes)
-                if(attribute == 'priceMin'){
-                    return ('از قیمت' + ' ' + term);
-                }else if(attribute == 'priceMax'){
-                    return ('تا قیمت' + ' ' + term);
-                }else{
-                    let termObj = this.allAttributes[attribute].filter(item=>item.key == term);
-                    return termObj[0].value;
-                }
-            },
-            checkScroll() {
-                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-                    if( !this.loading && (this.page < this.totalPage) ){
-                        //this.makeFilterUrl((this.page)+1);
-                    }
-                }
-            } ,
-            isShowFilterElement(filterName , attributeName){
-                if(attributeName.includes( this.filterElementKey[filterName] )){
-                    return true;
-                }else{
-                    return false;
-                }
-            },
-            showDetailHandler(data){
-                console.log(data)
-                this.showDetail = true;
-                this.detailData = data;
-                document.querySelector('video').load();
-            },
-            closeDetailHandler(){
-                this.showDetail = false;
-                this.detailData = {};
-            }
-        };
-    }
-
-</script>
 
 
 <?php get_footer() ?>

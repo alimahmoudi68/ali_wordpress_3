@@ -101,94 +101,132 @@
       },
 
 
-        async goTo(page , isFromHome = true) {
-          this.initUrl = null;
-          const homeEl = this.$refs.home;
-          const flash = this.$refs.flash;
+      async goTo(page, isFromHome = true) {
+  this.initUrl = null;
+  const homeEl = this.$refs.home;
+  const flash = this.$refs.flash;
 
-          // تایم‌لاین برای انیمیشن خروج منو
-          const tl = gsap.timeline({
-              onComplete: async () => {
-                this.loading = true;
-                await this.$nextTick();
-                
-                // // انیمیشن عرض content به اندازه عکس صفحه اصلی
-                // this.animateContantWidth(500);
+  // تایم‌لاین برای انیمیشن خروج منو
+  const tl = gsap.timeline({
+    onComplete: async () => {
+      this.loading = true;
+      await this.$nextTick();
 
-                // افکت نور
-                gsap.to(flash, { opacity: 0.7, duration: 0.2, yoyo: true, repeat: 1 });
+      // افکت فلش نور
+      gsap.to(flash, { opacity: 0.7, duration: 0.2, yoyo: true, repeat: 1 });
 
-               
-              try {
-                const homeBase = "<?php echo esc_url( home_url( '/' ) ); ?>";
-                const url = homeBase.replace(/\/+$/, '/') + String(page).replace(/^\/+/, '');
-                const response = await fetch(url, { credentials: 'same-origin' });
-                const html = await response.text();
-                console.log('html' , html)
-                const parser = new DOMParser();
-                console.log('parser' , parser)
-                const doc = parser.parseFromString(html, 'text/html');
-                console.log('doc' , doc)
-                const contentEl = doc.querySelector('.content');
-                this.pageContent = contentEl ? contentEl.innerHTML : '';
-                console.log('contentEl' , contentEl)
-              } catch (err) {
-                console.error('Failed to fetch /about content:', err);
-                this.pageContent = '';
-              }
-              
+      try {
+        // === مرحله ۱: گرفتن محتوای صفحه با AJAX ===
+        const homeBase = "<?php echo esc_url( home_url( '/' ) ); ?>";
+        const url = homeBase.replace(/\/+$/, '/') + String(page).replace(/^\/+/, '');
+        const response = await fetch(url, { credentials: 'same-origin' });
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
 
-              // نمایش لودینگ حداقل 5 ثانیه
-              await new Promise(resolve => setTimeout(resolve, 2000));
+        // === مرحله ۲: گرفتن محتوای اصلی ===
+        const contentEl = doc.querySelector('.content');
+        this.pageContent = contentEl ? contentEl.innerHTML : '';
+        console.log('✅ Fetched content:', contentEl);
 
-              this.loading = false;
+        // === مرحله ۳: اجرای wpPortfolio از اسکریپت صفحه‌ی جدید (در صورت وجود) ===
+        try {
+          let localizedScript = doc.querySelector('#wpPortfolio-data');
 
-              // ابتدا عرض content را به full تغییر می‌دهیم
-              this.animateContantWidth('full');
-              
-              // ۲ ثانیه صبر می‌کنیم تا انیمیشن عرض تمام شود
-              await new Promise(resolve => setTimeout(resolve, 2000));
-
-              this.currentPage = page;
-              await this.$nextTick();
-
-              const fullUrl = this.basePath.replace(/\/$/, '') + page;
-              window.history.pushState({}, '', fullUrl);
-
-              this.removeContentServerSide();
-
-              gsap.fromTo(this.$refs[page], 
-                { y: -200, opacity: 0, scale: 1 },
-                { y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power3.out",
-                  onComplete: async () => {
-                    await this.$nextTick();
-                  }
-                }
+          if (!localizedScript) {
+            const scripts = Array.from(doc.querySelectorAll('script'));
+            localizedScript = scripts.find(s => {
+              const txt = (s.textContent || '').trim();
+              return (
+                txt.length > 0 &&
+                (txt.includes('window.wpPortfolio') ||
+                  txt.includes('var wpPortfolio') ||
+                  /wpPortfolio\s*=/.test(txt))
               );
+            });
+          }
 
-              this.showTopMenu = true
-            }
-          });
+          if (localizedScript) {
+            eval(localizedScript.textContent);
+            console.log('✅ wpPortfolio loaded from AJAX:', window.wpPortfolio);
+          } else {
+            console.warn('⚠️ No wpPortfolio script found in fetched HTML.');
+          }
+        } catch (err) {
+          console.error('Error evaluating wpPortfolio script:', err);
+        }
 
-          // ابتدا دکمه‌ها را به سمت راست می‌بریم
-          const buttons = homeEl.querySelectorAll('button');
-          const spans = homeEl.querySelectorAll('span');
-          
-          tl.to([...buttons, ...spans], { 
-            x: -50, 
-            opacity: 0, 
-            duration: 0.4, 
-            ease: "power2.in",
-            stagger: 0.1
-          })
-          // سپس کل دیو home را ناپدید می‌کنیم
-          .to(homeEl, { 
-            x: 0, 
-            opacity: 0, 
-            duration: 0.6, 
-            ease: "power2.in" 
-          }, "-=0.2");
-        },
+        // === مرحله ۴: ری‌استارت کردن Alpine (اگر لازم باشد) ===
+        await this.$nextTick();
+        if (window.Alpine) {
+          console.log('🔁 Reinitializing Alpine after AJAX load...');
+          Alpine.flushAndStopDeferringMutations?.();
+          Alpine.start();
+        }
+
+      } catch (err) {
+        console.error('❌ Failed to fetch content:', err);
+        this.pageContent = '';
+      }
+
+      // === مرحله ۵: نمایش لودینگ و انیمیشن ===
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      this.loading = false;
+
+      this.animateContantWidth('full');
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      this.currentPage = page;
+      await this.$nextTick();
+
+      // === مرحله ۶: آپدیت URL و حذف محتوای سرور ===
+      const fullUrl = this.basePath.replace(/\/$/, '') + page;
+      window.history.pushState({}, '', fullUrl);
+      this.removeContentServerSide();
+
+      // === مرحله ۷: انیمیشن ورود صفحه جدید ===
+      gsap.fromTo(
+        this.$refs[page],
+        { y: -200, opacity: 0, scale: 1 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 1.2,
+          ease: 'power3.out',
+          onComplete: async () => {
+            await this.$nextTick();
+          }
+        }
+      );
+
+      this.showTopMenu = true;
+    }
+  });
+
+  // === مرحله ۰: انیمیشن خروج صفحه اصلی ===
+  const buttons = homeEl.querySelectorAll('button');
+  const spans = homeEl.querySelectorAll('span');
+
+  tl.to([...buttons, ...spans], {
+    x: -50,
+    opacity: 0,
+    duration: 0.4,
+    ease: 'power2.in',
+    stagger: 0.1
+  })
+    .to(
+      homeEl,
+      {
+        x: 0,
+        opacity: 0,
+        duration: 0.6,
+        ease: 'power2.in'
+      },
+      '-=0.2'
+    );
+},
+
 
 
         async loadPage(page) {

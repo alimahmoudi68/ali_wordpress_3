@@ -11,12 +11,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0" />
     <meta name="theme-color" content="<?php echo get_option('my_color'); ?>" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php
+        // Remove duplicate viewport; keep the first. Add canonical.
+        if (function_exists('is_singular') && is_archive()) {
+            $canonical = get_post_type_archive_link(get_query_var('post_type')) ?: home_url(add_query_arg(array(), $wp->request));
+        } else {
+            $canonical = home_url(add_query_arg(array(), $wp->request));
+        }
+    ?>
+    <link rel="canonical" href="<?php echo esc_url($canonical); ?>" />
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="description" content="<?php bloginfo('description') ?>">
     <meta name="keywords" content="<?php bloginfo('description') ?>">
     <link rel="shortcut icon" href="<?php echo get_template_directory_uri().'/images/favicon.png' ?>" title="Favicon" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <?php wp_head(); ?>

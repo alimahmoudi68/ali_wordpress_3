@@ -30,6 +30,14 @@ function theme_enqueue_assets() {
 		wp_enqueue_script('index', get_template_directory_uri() . '/js/index.js', [], false, true);
 	}
 
+	// صفحه آرشیو نمونه‌کارها
+	// if (is_post_type_archive('portfolio')) {
+	// 	wp_enqueue_script('archive-portfolio', get_template_directory_uri() . '/js/archive-portfolio.js', [], '1.0.0', true);
+	// }
+	if (true) {
+		wp_enqueue_script('archive-portfolio', get_template_directory_uri() . '/js/archive-portfolio.js', [], '1.0.0', true);
+	}
+
 	// صفحه تکی نمونه‌کار
 	if (is_singular('portfolio')) {
 		wp_enqueue_script('swiper', get_template_directory_uri() . '/js/swiper.min.js', [], false, true);
@@ -198,5 +206,3 @@ function make_url($lang, $address) {
 \*------------------------------------*/
 
 require_once dirname(__FILE__) . '/functions/api/portfolio.php';
-
-
