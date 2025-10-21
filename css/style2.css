@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.14 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.15 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -148,7 +148,9 @@
     ::placeholder {
       color: currentcolor;
       @supports (color: color-mix(in lab, red, red)) {
-        color: color-mix(in oklab, currentcolor 50%, transparent);
+        & {
+          color: color-mix(in oklab, currentcolor 50%, transparent);
+        }
       }
     }
   }
@@ -190,9 +192,6 @@
   }
   .collapse {
     visibility: collapse;
-  }
-  .invisible {
-    visibility: hidden;
   }
   .visible {
     visibility: visible;
@@ -281,9 +280,6 @@
   .mt-\[10px\] {
     margin-top: 10px;
   }
-  .mr-3 {
-    margin-right: calc(var(--spacing) * 3);
-  }
   .mb-2 {
     margin-bottom: calc(var(--spacing) * 2);
   }
@@ -296,14 +292,8 @@
   .mb-5 {
     margin-bottom: calc(var(--spacing) * 5);
   }
-  .mb-8 {
-    margin-bottom: calc(var(--spacing) * 8);
-  }
   .mb-10 {
     margin-bottom: calc(var(--spacing) * 10);
-  }
-  .ml-3 {
-    margin-left: calc(var(--spacing) * 3);
   }
   .ml-\[0px\] {
     margin-left: 0px;
@@ -335,6 +325,9 @@
   .aspect-16\/9 {
     aspect-ratio: 16/9;
   }
+  .h-\[0px\] {
+    height: 0px;
+  }
   .h-\[16px\] {
     height: 16px;
   }
@@ -356,17 +349,14 @@
   .h-\[250px\] {
     height: 250px;
   }
-  .h-\[350px\] {
-    height: 350px;
-  }
-  .h-\[400px\] {
-    height: 400px;
-  }
   .h-\[550px\] {
     height: 550px;
   }
   .h-\[600px\] {
     height: 600px;
+  }
+  .h-\[۵۵۰0px\] {
+    height: ۵۵۰0px;
   }
   .h-fit {
     height: fit-content;
@@ -380,6 +370,9 @@
   .h-screen {
     height: 100vh;
   }
+  .w-\[10px\] {
+    width: 10px;
+  }
   .w-\[16px\] {
     width: 16px;
   }
@@ -389,6 +382,12 @@
   .w-\[24px\] {
     width: 24px;
   }
+  .w-\[80px\] {
+    width: 80px;
+  }
+  .w-\[480px\] {
+    width: 480px;
+  }
   .w-\[500px\] {
     width: 500px;
   }
@@ -397,6 +396,9 @@
   }
   .w-\[calc\(50\%-10px\)\] {
     width: calc(50% - 10px);
+  }
+  .w-\[۲0px\] {
+    width: ۲0px;
   }
   .w-auto {
     width: auto;
@@ -433,11 +435,14 @@
   .max-w-\[80\%\] {
     max-width: 80%;
   }
+  .flex-1 {
+    flex: 1;
+  }
   .flex-grow {
     flex-grow: 1;
   }
-  .border-collapse {
-    border-collapse: collapse;
+  .grow {
+    flex-grow: 1;
   }
   .translate-x-\[-50\%\] {
     --tw-translate-x: -50%;
@@ -529,6 +534,9 @@
   .overflow-y-auto {
     overflow-y: auto;
   }
+  .overflow-y-hidden {
+    overflow-y: hidden;
+  }
   .scroll-smooth {
     scroll-behavior: smooth;
   }
@@ -589,13 +597,6 @@
   }
   .bg-white-100 {
     background-color: var(--color-white-100);
-  }
-  .dark {
-    & .bg-dots-fade {
-      background-image: radial-gradient(rgb(170, 164, 164) 7%, transparent 0);
-      background-size: 30px 30px;
-      background-blend-mode: overlay;
-    }
   }
   .stroke-gray-700 {
     stroke: var(--color-gray-700);
@@ -778,13 +779,6 @@
     &:hover {
       @media (hover: hover) {
         background-color: transparent;
-      }
-    }
-  }
-  .hover\:px-6 {
-    &:hover {
-      @media (hover: hover) {
-        padding-inline: calc(var(--spacing) * 6);
       }
     }
   }

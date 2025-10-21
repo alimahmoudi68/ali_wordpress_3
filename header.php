@@ -61,10 +61,11 @@
             </div>
           </template>
 
-        <div class="w-fit flex items-center contentContainer transition-all duration-700 relative">
+        <div class="w-[480px] flex items-center contentContainer transition-all duration-700 relative">
           <img class="w-auto h-[550px]" src='<?php echo get_template_directory_uri().'/images/border.png'?>'/>
 
-          <div class="w-full flex justify-center h-[600px] overflow-y-auto overflow-x-hidden scroll-pl-6 custom-scrollbar">
+          <div class="flex-1 h-[550px] overflow-x-hidden scroll-pl-6 custom-scrollbar" 
+               :class="loading ? 'overflow-y-hidden' : 'overflow-y-auto'">
             <!-- صفحه لودینگ -->
             <template x-if="loading">
               <div x-ref="loading" class="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex items-center justify-center text-gray-600">
